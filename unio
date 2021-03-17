@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+
+import click
+import paramiko
+from src import main, speedtest, log, install, log, shell, wifi, restart, sync, hostname, network, properties
+
+if __name__ == '__main__':
+    with open("./assets/ascii_logo2.txt", "r") as file:
+        for line in file:
+            click.echo(line)
+
+    click.echo("Bem-vindo ao aplicativo de Instalação & Suporte UNIO Smart Home!\n\n")
+
+    main()
