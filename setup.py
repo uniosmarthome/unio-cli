@@ -24,7 +24,7 @@ setup(
     description = "cli for managing UNIO Smart Home enabled devices",
     long_description = long_descr,
     long_description_content_type='text/markdown',
-    author = "Filipe Leandro",
+    author = "UNIO Smart Home",
     author_email = "developers@freshminds.com.br",
     url = "https://github.com/uniosmarthome/unio-cli",
     python_requires='>=3.8',
