@@ -1,27 +1,25 @@
 import click
 import os
 import datetime
+from pkg_resources import resource_stream
 
-from . import main
+from .main import main
 from .log import unio as log_unio
 from .sync import sync
 
 @main.command()
-@click.argument('update_location')
+@click.argument('version')
 @click.pass_obj
 @click.pass_context
-def install(ctx, client, update_location):
+def install(ctx, client, version):
     python_packages_path = '/usr/local/lib/python3.8/site-packages/'
 
-    click.echo('Instalando update: {}'.format(update_location))
-    update_filename = os.path.normpath(update_location).split(os.path.sep)
-    update_filename = update_filename[len(update_filename)-1] if len(update_filename) > 0 else update_filename
+    click.echo('Instalando update: {}'.format(version))
 
-    update_version = os.path.splitext(update_location)
-    update_version = update_version[len(update_version)-2] if len(update_version) > 0 else update_version
-   
-    click.echo("Fazendo upload do pacote de atualização: " + update_location)
-    client.put(update_location, remote_path='/tmp/')
+    update_filename = 'unio-server-{}.zip'.format(version)
+    
+    click.echo("Fazendo upload do pacote de atualização: " + update_filename)
+    client.putfo(resource_stream('resources', update_filename), remote_path='/tmp/{}'.format(update_filename))
 
     backup_filename = datetime.datetime.now().strftime("fhserver.%Y%m%d.%H%M%S.bak")
     backup_location = '/opt/{}'.format(backup_filename)
@@ -117,5 +115,5 @@ def install(ctx, client, update_location):
     click.echo("Reiniciando aplicação...")
     client.restart_app(reread=supervisor_changed)
     
-    click.secho('Instalação do UNIO Server ({}) finalizada com SUCESSO!'.format(update_location), fg='green')
+    click.secho('Instalação do UNIO Server ({}) finalizada com SUCESSO!'.format(update_filename), fg='green')
     ctx.invoke(log_unio, lines=0)

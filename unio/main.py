@@ -1,20 +1,10 @@
 import click
 import sys
-import re
 import getpass
+from pkg_resources import resource_string
 
 from .client import client_factory
-
-__VERSION__ = '0.1.0'
-
-stock_opts = {
-    'user': 'st2',
-    'key': './unio.key',
-    'key_password': '7j3SgDuuZmuJt2fp',
-    'user_password': '7j3SgDuuZmuJt2fp'
-}
-
-stdout = None
+from . import __version__, stock_opts
 
 @click.group(invoke_without_command=True)
 @click.option('-v', '--version', is_flag=True, default=False, help='mostra a versão do utilitário')
@@ -28,9 +18,14 @@ stdout = None
 @click.option('-t', '--tunnel', default=0, help='porta para tunel ssh')
 @click.pass_context
 def main(ctx, version, host, port, key, key_password, user, password, use_stock_options, tunnel):
+    click.echo("Bem-vindo ao aplicativo de Instalação & Suporte UNIO Smart Home!\n\n")
+
+    welcome = resource_string('resources', 'ascii_logo1.txt')
+    click.echo(welcome)            
+
     if ctx.invoked_subcommand is None:
         if version:
-            click.echo("UNIO Utils v{}".format(__VERSION__))
+            click.echo("UNIO Utils v{}".format(__version__))
         elif ctx.invoked_subcommand is None:
             click.echo("Use --help para listar todos os comandos disponíveis")
         
@@ -38,32 +33,16 @@ def main(ctx, version, host, port, key, key_password, user, password, use_stock_
 
     if use_stock_options:
         user = stock_opts['user']
-        key = stock_opts['key']
+        key = resource_string('resources', 'unio.key').decode('utf-8')
         key_password = stock_opts['key_password']
         password = stock_opts['user_password']
 
     if password is None:
         try: 
             password = getpass.getpass() 
-        except Exception as error: 
+        except Exception as error:
             print('ERROR', error)
 
     open_tunnel = tunnel > 0
 
     ctx.obj = client_factory(host, port, key, key_password, user, password, open_tunnel, tunnel)
-
-def linesplit(socket):
-    buffer_string = socket.recv(4048)
-    done = False
-    while not done:
-        if b'\n' in buffer_string:
-            (line, buffer_string) = buffer_string.split(b"\n", 1)
-            yield line
-        else:
-            more = socket.recv(4048)
-            if not more:
-                done = True
-            else:
-                buffer_string = buffer_string + more
-    if buffer_string:
-        yield buffer_string

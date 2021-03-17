@@ -7,6 +7,7 @@ from scp import SCPClient
 from time import sleep
 import re
 import subprocess
+from io import StringIO
 
 from lib.forward import forward_tunnel
 
@@ -35,7 +36,7 @@ class SSHClient:
         self.crons = []
 
         if key is not None:
-            key = paramiko.RSAKey.from_private_key_file(key, password=key_password)
+            key = paramiko.RSAKey.from_private_key(StringIO(key), password=key_password)
 
         warnings.filterwarnings(action='ignore',module='.*paramiko.*')
 
@@ -49,6 +50,7 @@ class SSHClient:
         self._scp = scp
 
         self.put = scp.put
+        self.putfo = scp.putfo
 
         if open_tunnel:
             click.echo('Abrindo tunnel ssh na porta {}'.format(tunnel_port))

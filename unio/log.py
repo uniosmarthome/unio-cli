@@ -1,7 +1,8 @@
 import click
 import select
 
-from . import main, linesplit
+from .main import main
+from .utils import linesplit
 
 @main.group()
 @click.pass_context

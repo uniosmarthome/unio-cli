@@ -1,7 +1,7 @@
 import click
 
 from lib.shell import interactive_shell
-from . import main
+from .main import main
 
 @main.group(invoke_without_command=True)
 @click.pass_obj

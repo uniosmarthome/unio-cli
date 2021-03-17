@@ -3,3 +3,5 @@ __pycache__/
 .private/
 *.code-workspace
 build/
+dist/
+Pipfile.lock

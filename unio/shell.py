@@ -2,7 +2,7 @@ import click
 import os
 
 from lib.shell import interactive_shell
-from . import main
+from .main import main
 
 @main.command()
 @click.pass_obj

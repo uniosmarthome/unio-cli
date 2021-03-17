@@ -1,7 +1,7 @@
 import click
 import select
 
-from . import main
+from .main import main
 
 @main.command()
 @click.pass_obj

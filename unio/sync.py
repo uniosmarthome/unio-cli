@@ -1,7 +1,7 @@
 import click
 import re
 
-from . import main
+from .main import main
 
 @main.command()
 @click.option('-d', '--debug', is_flag=True, default=False, help='usar url através de tunel')

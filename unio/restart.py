@@ -1,6 +1,6 @@
 import click
 
-from . import main
+from .main import main
 from .log import unio as log_unio, \
 	hass as log_hass, \
     zigbee as log_zigbee
