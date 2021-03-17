@@ -4,3 +4,4 @@ __pycache__/
 *.code-workspace
 build/
 dist/
+Pipfile.lock
