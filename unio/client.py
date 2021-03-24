@@ -32,7 +32,8 @@ class SSHClient:
         self.user = user
         self._password = password
 
-        self._sync_cron = '*/15 * * * * cd /opt/fhserver && PYTHONPATH=app:lib:. APP_SETTINGS=config.DevelopmentConfig python3 app/fhsync.py > /dev/null 2>&1'
+        self._sync_cron = '* */1 * * * cd /opt/fhserver && PYTHONPATH=app:lib:. APP_SETTINGS=config.DevelopmentConfig python3 app/fhsync.py > /dev/null 2>&1'
+        self._wifi_cron = '*/1 * * * * /opt/scripts/check_wifi.sh > /dev/null 2>&1'
         self.crons = []
 
         if key is not None:
@@ -80,6 +81,10 @@ class SSHClient:
     @property
     def sync_cron(self):
         return self._sync_cron
+
+    @property
+    def wifi_cron(self):
+        return self._wifi_cron
 
     def sudo_run(self, command, v=True, timeout=120):
         return self.run(command, v=v, timeout=timeout, sudo=True)

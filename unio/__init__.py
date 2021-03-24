@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 # Default values.
 # WARNING: User should change these after installation

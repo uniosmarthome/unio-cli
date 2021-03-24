@@ -111,6 +111,7 @@ def install(ctx, client, version):
    
     click.echo('Processando crontab...')
     client.add_cronjob('fhsync', client.sync_cron, 'python3 app/fhsync.py', enabled=True)
+    client.add_cronjob('wifisync', client.wifi_cron, '/opt/scripts/check_wifi.sh', enabled=True)
 
     click.echo("Reiniciando aplicação...")
     client.restart_app(reread=supervisor_changed)
