@@ -33,7 +33,7 @@ class SSHClient:
         self._password = password
 
         self._sync_cron = '* */1 * * * cd /opt/fhserver && PYTHONPATH=app:lib:. APP_SETTINGS=config.DevelopmentConfig python3 app/fhsync.py > /dev/null 2>&1'
-        self._wifi_cron = '*/1 * * * * /opt/scripts/check_wifi.sh > /dev/null 2>&1'
+        self._wifi_cron = '*/3 * * * * /opt/scripts/check_wifi.sh > /dev/null 2>&1'
         self.crons = []
 
         if key is not None:
